@@ -1,0 +1,8 @@
+\BOOKMARK [1][-]{section.1}{Hist\363ria}{}% 1
+\BOOKMARK [1][-]{section.2}{Regras}{}% 2
+\BOOKMARK [2][-]{subsection.2.1}{Configura\347\343o}{section.2}% 3
+\BOOKMARK [2][-]{subsection.2.2}{Jogabilidade}{section.2}% 4
+\BOOKMARK [2][-]{subsection.2.3}{Condi\347\343o de Vict\363ria}{section.2}% 5
+\BOOKMARK [1][-]{section.3}{Implementa\347\343o em Prolog}{}% 6
+\BOOKMARK [2][-]{subsection.3.1}{Representa\347\343o interna do estado do jogo}{section.3}% 7
+\BOOKMARK [2][-]{subsection.3.2}{Visualiza\347\343o do tabuleiro em modo de texto}{section.3}% 8
