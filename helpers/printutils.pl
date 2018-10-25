@@ -12,6 +12,7 @@ factFontColor(green).
 borderColor(magenta).
 player1Color(green).
 player2Color(red).
+inGameColor(white).
 
 
 %for printing the same character over and over again

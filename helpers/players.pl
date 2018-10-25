@@ -31,5 +31,12 @@ translateType(X,Y,Color):-
     playerType(X,Y),
     ansi_format([fg(Color)],'~w',[Y]).
 
-
-
+playerChoosePieceToMove(Player, LocationX, LocationY):-
+    inGameColor(IgColor),
+    nl,
+    ansi_format([fg(IgColor)],'~w~w~w',['Player ',Player,' choose a piece to move (Letter, Number)']),
+    nl,
+    ansi_format([fg(IgColor)],'~w',['Letter: ']),
+    read(LocationY),
+    ansi_format([fg(IgColor)],'~w',['Number: ']),
+    read(LocationX).

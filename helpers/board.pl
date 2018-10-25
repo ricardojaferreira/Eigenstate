@@ -12,30 +12,30 @@ emptyBoard( [
           ).
 
 startBoard( [
-                ['e','e','e','e','e','e'],
-                ['e','e','e','b4','e','e'],
-                ['e','e','b2','e','e','e'],
+                ['b1','b2','b3','b4','b5','b6'],
                 ['e','e','e','e','e','e'],
                 ['e','e','e','e','e','e'],
-                ['e','e','a3','e','e','e']
+                ['e','e','e','e','e','e'],
+                ['e','e','e','e','e','e'],
+                ['a1','a2','a3','a4','a5','a6']
             ]
           ).
 
 startPiecePlayer1( [
-                ['o','o','o','*','o'],
-                ['*','o','*','o','o'],
-                ['o','o','@','*','o'],
+                ['o','o','o','o','o'],
+                ['o','o','*','o','o'],
+                ['o','o','@','o','o'],
                 ['o','o','o','o','o'],
                 ['o','o','o','o','o']
             ]
           ).
 
 startPiecePlayer2( [
-                ['o','*','*','o','*'],
-                ['o','*','o','o','*'],
-                ['*','*','@','o','o'],
-                ['o','*','*','o','o'],
-                ['*','o','o','o','o']
+                ['o','o','o','o','o'],
+                ['o','o','o','o','o'],
+                ['o','o','@','o','o'],
+                ['o','o','*','o','o'],
+                ['o','o','o','o','o']
             ]
           ).
 
@@ -204,10 +204,10 @@ boardLine(C,[H|T]):-
 
     boardLine(Column,T).
 
-printBoard:-
+printBoard(Board):-
     nl,
     ansi_format([bold,fg(white)],'~w',['         A             B             C             D             E             F        ']),
     print_char(border,':',88),
-    startBoard(X),
-    boardLine(0,X),
+%    startBoard(Board),
+    boardLine(0,Board),
     print_char(border,':',88).
