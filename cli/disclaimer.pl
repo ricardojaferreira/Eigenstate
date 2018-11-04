@@ -14,4 +14,5 @@ prolog:message(game_info(Programmer,Student,Major,Minor,Rev)) -->
 print_disclaimer :-
     print_message(banner, single_line('Welcome to Eigenstate')),
     print_char(banner,'-',50),
-    print_message(banner, game_info('Ricardo Ferreira', 'up200305418', 0,0,0)).
+    print_message(banner, game_info('Ricardo Ferreira', 'up200305418', 0,0,0)),
+    nl.
