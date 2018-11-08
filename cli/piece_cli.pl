@@ -41,3 +41,47 @@ printPiece(L,Piece,Color):-
     discardElementsFromList(Piece,L1,[Line|_T]),
     printPieceLine(Line,Color),
     ansi_format([fg(Color)],'~w',['| ']).
+
+showErrorPieceDoesNotBelongToPlayer:-
+    errorFontColor(Color),
+    ansi_format([fg(Color)],'~w',['This cell does not have one of your pieces.']),
+    nl.
+
+showErrorPieceCannotBeMovedToThatLocation:-
+    errorFontColor(Color),
+    ansi_format([fg(Color)],'~w',['This piece cannot to go that position.']),
+    nl.
+
+%     A B C D E
+%   +-----------+
+% 1 | 0 0 0 0 0 |
+% 2 | 0 0 0 0 0 |
+% 3 | 0 0 @ 0 0 |
+% 4 | 0 0 1 0 0 |
+% 5 | 0 0 0 0 0 |
+%   +-----------+
+
+printPieceByLine(0,Piece,Color):-
+    write('  '),
+    printPiece(0,Piece,Color),
+    nl,
+    printPieceByLine(1,Piece,Color).
+
+printPieceByLine(6,Piece,Color):-
+    write('  '),
+    printPiece(6,Piece,Color),
+    nl.
+
+printPieceByLine(L,Piece,Color):-
+    ansi_format([bold,fg(white)],'~w~w',[L,' ']),
+    printPiece(L,Piece,Color),
+    nl,
+    L1 is L+1,
+    printPieceByLine(L1,Piece,Color).
+
+printOnePiece(Player,Piece):-
+    nl,
+    playerColor(Player,Color),
+    ansi_format([bold,fg(white)],'~w',['    A B C D E ']),
+    nl,
+    printPieceByLine(L,Piece,Color).

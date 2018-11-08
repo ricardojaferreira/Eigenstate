@@ -29,7 +29,7 @@ checkType(_Z,Result):-
 % Sets the player type if it is valid.
 % If not valid this will run in cycle until a valid option is chosen.
 %%
-setPlayer(Type, Player):-
+setPlayer(Type,Player):-
     playerTypesAvailable(Types),
     askPlayerToChoose(Player,Types,X),
     checkType(X,[Type|_T]).
@@ -41,13 +41,15 @@ showPlayers(P1,P2):-
     playerType(P2, Type2),
     showPlayerTypes(Type1, Type2).
 
-%
-%playerChoosePieceToMove(Player, LocationX, LocationY):-
-%    inGameColor(IgColor),
-%    nl,
-%    ansi_format([fg(IgColor)],'~w~w~w',['Player ',Player,' choose a piece to move (Letter, Number)']),
-%    nl,
-%    ansi_format([fg(IgColor)],'~w',['Letter: ']),
-%    read(LocationY),
-%    ansi_format([fg(IgColor)],'~w',['Number: ']),
-%    read(LocationX).
+%%%
+% This is just a way to know the current Player type in loop mode.
+getCurrentPlayerType(1,P1Type,_P2Type,Type):-
+    playerType(P1Type,Type).
+getCurrentPlayerType(2,_P1Type,P2Type,Type):-
+    playerType(P2Type,Type).
+
+
+choosePieceToMove(Player,Board,PieceToMove):-
+    askPlayerToChoosePieceToMove(Player,PosX,PosY),
+    checkBoardCellChoice(Player,Board,PosX,PosY,PieceToMove),!.
+

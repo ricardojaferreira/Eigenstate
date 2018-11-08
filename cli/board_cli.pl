@@ -4,6 +4,36 @@
 boardCell(1,0,': : : : : : :').
 boardCell(0,0,'             ').
 
+translateBoardLetter('Z',99):-
+    !,fail.
+translateBoardLetter('A',1).
+translateBoardLetter('a',1).
+translateBoardLetter('B',2).
+translateBoardLetter('b',2).
+translateBoardLetter('C',3).
+translateBoardLetter('c',3).
+translateBoardLetter('D',4).
+translateBoardLetter('d',4).
+translateBoardLetter('E',5).
+translateBoardLetter('e',5).
+translateBoardLetter('F',6).
+translateBoardLetter('f',6).
+
+checkLetter(Letter,Result):-
+    translateBoardLetter(Letter,Result),
+    Result>=1,
+    Result=<6,!.
+
+checkLetter(_Letter,Result):-
+    !,askPlayerToChooseNewLetter(Result).
+
+checkNumber(Number,Number):-
+    Number>=1,
+    Number=<6,!.
+
+checkNumber(_Number,NewNumber):-
+    !,askPlayerToChooseNewNumber(NewNumber).
+
 %%%
 % Print each cell of the board
 % 0 means empty cell
