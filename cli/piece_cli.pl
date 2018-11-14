@@ -52,6 +52,11 @@ showErrorPieceCannotBeMovedToThatLocation:-
     ansi_format([fg(Color)],'~w',['This piece cannot to go that position.']),
     nl.
 
+showErrorInvalidPositionForPeg:-
+    errorFontColor(Color),
+    ansi_format([fg(Color)],'~w',['That position is not valid to place a peg.']),
+    nl.
+
 %     A B C D E
 %   +-----------+
 % 1 | 0 0 0 0 0 |
@@ -84,4 +89,4 @@ printOnePiece(Player,Piece):-
     playerColor(Player,Color),
     ansi_format([bold,fg(white)],'~w',['    A B C D E ']),
     nl,
-    printPieceByLine(L,Piece,Color).
+    printPieceByLine(0,Piece,Color).

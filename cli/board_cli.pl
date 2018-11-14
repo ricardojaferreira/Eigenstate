@@ -19,20 +19,20 @@ translateBoardLetter('e',5).
 translateBoardLetter('F',6).
 translateBoardLetter('f',6).
 
-checkLetter(Letter,Result):-
+checkLetter(Letter,Size,Result):-
     translateBoardLetter(Letter,Result),
     Result>=1,
-    Result=<6,!.
+    Result=<Size,!.
 
-checkLetter(_Letter,Result):-
-    !,askPlayerToChooseNewLetter(Result).
+checkLetter(_Letter,Size,Result):-
+    !,askPlayerToChooseNewLetter(Size,Result).
 
-checkNumber(Number,Number):-
+checkNumber(Number,Size,Number):-
     Number>=1,
-    Number=<6,!.
+    Number=<Size.
 
-checkNumber(_Number,NewNumber):-
-    !,askPlayerToChooseNewNumber(NewNumber).
+checkNumber(_Number,Size,NewNumber):-
+    !,askPlayerToChooseNewNumber(Size,NewNumber).
 
 %%%
 % Print each cell of the board

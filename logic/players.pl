@@ -50,6 +50,7 @@ getCurrentPlayerType(2,_P1Type,P2Type,Type):-
 
 
 choosePieceToMove(Player,Board,PieceToMove):-
-    askPlayerToChoosePieceToMove(Player,PosX,PosY),
+    boardSquareSize(S),
+    askPlayerToChoosePieceToMove(Player,S,PosX,PosY),
     checkBoardCellChoice(Player,Board,PosX,PosY,PieceToMove),!.
 

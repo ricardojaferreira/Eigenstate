@@ -3,6 +3,7 @@
 
 boardLines(6).
 boardColumns(6).
+boardSquareSize(6).
 
 %boardCell(1,'0',': : : : : : :').
 %boardCell(0,'0','             ').
@@ -27,7 +28,7 @@ emptyBoard( [
 % 7-12: Player 2 pieces
 %%
 startBoard( [
-                [1,2,3,0,5,6],
+                [1,2,3,4,5,6],
                 [0,0,0,0,0,0],
                 [0,0,0,0,0,0],
                 [0,0,0,0,0,0],
@@ -70,7 +71,8 @@ getBoardCellPosition([BoardLine|T],PieceToMove,StartX,StartY,Line,Column):-
 %%
 checkBoardCellChoice(Player,Board,PosX,PosY,PieceToMove):-
     getBoardCellValue(Board,PosX,PosY,PieceNumber),
-    checkIfPieceBelongsToPlayer(Player,PieceNumber,PieceToMove).
+    checkIfPieceBelongsToPlayer(Player,PieceNumber),
+    PieceNumber=PieceToMove.
 
 checkBoardCellChoice(Player,Board,_PosX,_PosY,PieceToMove):-
     showErrorPieceDoesNotBelongToPlayer,
@@ -86,7 +88,6 @@ movePieceOnBoard([BoardLine|Rest],PieceToMove,PosX,PosY,[NewLine|T]):-
     replaceElementInList(PieceToMove,0,BoardLine,NewLine),
     Px is PosX-1,
     movePieceOnBoard(Rest,PieceToMove,Px,PosY,T).
-
 
 
 searchPiecesOnLine([],[]).

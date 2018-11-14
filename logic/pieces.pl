@@ -1,16 +1,25 @@
 :-['utils.pl'].
+consult('../cli/piece_cli.pl').
+
+pieceSquareSize(5).
 
 %Max Number of Pieces per Player
 numberOfPiecesPerPlayer(6).
 
+%Calculates the maximum number of pegs per piece
+%Depends on the size of the piece, in that way changing just one predicate this is also updated.
+numberOfPegsPerPiece(N):-
+    pieceSquareSize(X),
+    N is X*X-1.
+
 %Gives the position of the central cell (Column, Line)
 centerLocation(3,3).
 
-checkIfPieceBelongsToPlayer(1,PieceNumber,PieceNumber):-
+checkIfPieceBelongsToPlayer(1,PieceNumber):-
     PieceNumber>=1,
     PieceNumber=<6.
 
-checkIfPieceBelongsToPlayer(2,PieceNumber,PieceNumber):-
+checkIfPieceBelongsToPlayer(2,PieceNumber):-
     PieceNumber>=7,
     PieceNumber=<12.
 
@@ -121,10 +130,10 @@ searchPieceOnList([],_X,[]).
 
 searchPieceOnList([N|_X],[N|T],[N|T]).
 
-searchPieceOnList([N|T],[L1|T1],H):-
+searchPieceOnList([_N|T],[L1|T1],H):-
     searchPieceOnList(T,[L1|T1],H).
 
-removeExtraPieces(List,[],[]).
+removeExtraPieces(_List,[],[]).
 
 removeExtraPieces(List,[Piece|T1],[H|T2]):-
     searchPieceOnList(List,Piece,H),
@@ -147,7 +156,8 @@ movePiece(Player,PieceToMove,ListOfPieces,Board,NewListOfPieces,NewBoard):-
     updatePieceList(Board,ListOfPieces,NewListOfPieces).
 
 getPositionToMove(Player,PegsPosition,Line,Column,PosX,PosY):-
-    askPlayerToChooseACellToMove(Player,X,Y),
+    boardSquareSize(S),
+    askPlayerToChooseACellToMove(Player,S,X,Y),
     checkIfIsAValidMovement(Player,PegsPosition,Line,Column,X,Y,PosX,PosY).
 
 checkIfIsAValidMovement(_Player,PegsPositions,Line,Column,PosX,PosY,PosX,PosY):-
@@ -159,8 +169,102 @@ checkIfIsAValidMovement(Player,PegsPositions,Line,Column,_X,_Y,PosX,PosY):-
     showErrorPieceCannotBeMovedToThatLocation,
     getPositionToMove(Player,PegsPositions,Line,Column,PosX,PosY).
 
+checkPositionToPlacePeg(_Player,Piece,X,Y,X,Y):-
+    X1 is X-1,
+    discardElementsFromList(Piece,X1,[Result|_T]),
+    getListValueByIndex(Result,Y,V),
+    nonvar(V),
+    V=0.
+
+checkPositionToPlacePeg(Player,Piece,_X,_Y,PosX,PosY):-
+    showErrorInvalidPositionForPeg,
+    getPegPosition(Player,Piece,PosX,PosY).
+
+
+getPegPosition(Player,Piece,PosX,PosY):-
+    pieceSquareSize(S),
+    askPlayerToChooseAPegPosition(Player,S,X,Y),
+    checkPositionToPlacePeg(Player,Piece,X,Y,PosX,PosY).
+
+%%
+% The position was already validated so we don't need to go to the
+% end of the list
+%%
+updatePieceWithPeg([PieceRow|T],1,PosY,[NewPieceRow|T]):-
+    replaceElementAtPosition(1,PosY,PieceRow,NewPieceRow).
+
+updatePieceWithPeg([PieceRow|T],PosX,PosY,[PieceRow|NT]):-
+    X is PosX-1,
+    updatePieceWithPeg(T,X,PosY,NT).
+
+
+%%
+% The piece was already validated, so again we don't need to go to the end of the
+%list
+%%
+updateListOfPieces([[N|_P]|T],N,NewPiece,[[N|[NewPiece]]|T]).
+
+updateListOfPieces([[N|P]|T],PieceNumber,NewPiece,[[N|P]|H]):-
+    updateListOfPieces(T,PieceNumber,NewPiece,H).
+
+
 addPegToPiece(Player,Board,ListOfPieces,NewListOfPieces):-
-    askPlayerToChooseAPieceToAddPeg(Player,PosX,PosY),
-    checkBoardCellChoice(Player,Board,PosX,PosY,PieceToAddPeg),
-    getPieceByIndex(PieceToAddPeg,ListOfPieces,Piece),
-    printOnePiece(Player,Piece).
+    boardSquareSize(S),
+    askPlayerToChooseAPieceToAddPeg(Player,S,PosX,PosY),
+    checkBoardCellChoice(Player,Board,PosX,PosY,PieceOnBoard),
+    getPieceByIndex(PieceOnBoard,ListOfPieces,Piece),
+    printOnePiece(Player,Piece),
+    getPegPosition(Player,Piece,PegX,PegY),
+    updatePieceWithPeg(Piece,PegX,PegY,NewPiece),
+    updateListOfPieces(ListOfPieces,PieceOnBoard,NewPiece,NewListOfPieces).
+
+
+
+%%%%%%%%%%%%%%%%%%%%%%%%% TESTE %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+listOfPieces([
+         [1,[[0,0,0,0,0],[0,0,1,0,0],[0,0,8,0,0],[0,0,0,0,0],[0,0,0,0,0]]],
+         [2,[[0,0,0,0,0],[0,0,1,0,0],[0,0,8,0,0],[0,0,0,0,0],[0,0,0,0,0]]],
+         [3,[[0,0,0,0,0],[0,0,1,0,0],[0,0,8,0,0],[0,0,0,0,0],[0,0,0,0,0]]],
+         [4,[[0,0,0,0,0],[0,0,1,0,0],[0,0,8,0,0],[0,0,0,0,0],[0,0,0,0,0]]],
+         [5,[[0,0,0,0,0],[0,0,1,0,0],[0,0,8,0,0],[0,0,0,0,0],[0,0,0,0,0]]]
+         ]).
+
+simpleList(         [[1,[[0,0],[0,0],[0,0],[0,0],[0,0]]],
+                    [2,[[0,0],[0,0],[0,0],[0,0],[0,0]]],
+                    [3,[[0,0],[0,0],[0,0],[0,0],[0,0]]],
+                    [4,[[0,0],[0,0],[0,0],[0,0],[0,0]]],
+                    [5,[[0,0],[0,0],[0,0],[0,0],[0,0]]]
+                    ]).
+
+startBoardTest( [
+                [1,2,3,4,5,6],
+                [0,0,0,0,0,0],
+                [0,0,0,0,0,0],
+                [0,0,0,0,0,0],
+                [0,0,0,0,0,0],
+                [7,8,9,10,11,12]
+            ]
+          ).
+
+
+newPiece([
+            [0,0,0,0,0],[0,0,1,0,0],[0,0,8,0,0],[0,0,0,0,0],[0,0,0,0,0]
+         ]
+         ).
+
+test(NL):-
+    listOfPieces(L),
+    newPiece(N),
+    updateListOfPieces(L,3,N,NL).
+
+test1(NL):-
+    listOfPieces(L),
+    startBoardTest(B),
+    addPegToPiece(1,B,L,NL).
+
+test2(NLP):-
+    newPiece(P),
+    listOfPieces(LP),
+    updatePieceWithPeg(P,1,1,NP),
+    updateListOfPieces(LP,1,NP,NLP).

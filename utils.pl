@@ -99,3 +99,77 @@ removeEmptyElementsFromList([[]|T1],List):-
 
 removeEmptyElementsFromList([L1|T1],[L1|T2]):-
     removeEmptyElementsFromList(T1,T2).
+
+%%
+% Get the element of a list by index (index start with 1)
+%%
+getListValueByIndex([],_I,_V).
+
+getListValueByIndex([V|_T],1,V).
+
+getListValueByIndex([_H|T],I,V):-
+    I1 is I-1,
+    getListValueByIndex(T,I1,V).
+
+%%%
+% Sum the elements in a list (all elements must be numbers)
+%%
+sumListElementsAux([],N,N).
+
+sumListElementsAux([E|T],Aux,Result):-
+    Aux1 is E+Aux,
+    sumListElementsAux(T,Aux1,Result).
+
+sumListElements(List,Result):-
+    sumListElementsAux(List,0,Result).
+
+%%%
+% Count the number of occurences of one element on a List
+%%
+countElementsOnListAux(_E,[],Aux,Aux).
+
+countElementsOnListAux(E,[E|T],Aux,Result):-
+    Aux1 is Aux+1,
+    countElementsOnListAux(E,T,Aux1,Result).
+
+countElementsOnListAux(E,[_N|T],Aux,Result):-
+    countElementsOnListAux(E,T,Aux,Result).
+
+countElementsOnList(E,List,Result):-
+    countElementsOnListAux(E,List,0,Result).
+
+
+
+%%%
+% Count the number of occurences of one element on a Matrix
+%%
+countElementsOnMatrixAux(_E,[],[]).
+
+countElementsOnMatrixAux(E,[L|T],[Aux|R]):-
+    countElementsOnList(E,L,Aux),
+    countElementsOnMatrixAux(E,T,R).
+
+countElementsOnMatrix(E,Matrix,Result):-
+    countElementsOnMatrixAux(E,Matrix,ResultsList),
+    sumListElements(ResultsList,Result).
+
+
+%%%%%%%%%%%%%%%%%%%%%% TESTE %%%%%%%%%%%%%%%%%%%
+
+matrix1([
+    [0,0,1,1,1],
+    [1,1,1,1,1],
+    [1,1,8,1,1],
+    [0,0,0,1,1],
+    [1,1,0,0,1]
+]).
+
+list1([0,1,1,8,1,0,0]).
+
+testCountElementsOnMatrix(Result):-
+    matrix1(M),
+    countElementsOnMatrix(1,M,Result).
+
+testCountElementsOnList(Result):-
+    list1(L),
+    countElementsOnList(1,L,Result).
