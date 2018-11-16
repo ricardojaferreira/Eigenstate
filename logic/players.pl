@@ -1,4 +1,6 @@
 :-['../cli/player_cli.pl'].
+:-['pieces.pl'].
+
 
 playerTypesAvailable([0,1]).
 
@@ -54,3 +56,41 @@ choosePieceToMove(Player,Board,PieceToMove):-
     askPlayerToChoosePieceToMove(Player,S,PosX,PosY),
     checkBoardCellChoice(Player,Board,PosX,PosY,PieceToMove),!.
 
+getListOfPiecesForPlayerAux(_Player,[],[]).
+
+getListOfPiecesForPlayerAux(Player,[H|T],[H|L]):-
+    checkIfPieceBelongsToPlayer(Player,H),
+    getListOfPiecesForPlayerAux(Player,T,L).
+
+getListOfPiecesForPlayerAux(Player,[_H|T],L):-
+    getListOfPiecesForPlayerAux(Player,T,L).
+
+getListOfPiecesForPlayer(_Player,[],[]).
+
+getListOfPiecesForPlayer(Player,[BL|R],[C|L]):-
+    getListOfPiecesForPlayerAux(Player,BL,C),
+    getListOfPiecesForPlayer(Player,R,L).
+
+
+choosePieceToMoveComputer(Player,Board,PieceToMove):-
+    getListOfPiecesForPlayer(Player,Board,ListAux),
+    convertToSimpleList(ListAux,List),
+    chooseRandomElement(List,RandomElement),
+    getListValueByIndex(List,RandomElement,PieceToMove).
+
+
+%%%%%%%%%%%%%%%% TESTE %%%%%%%%%%%%%%%%%%%%%%%%
+
+playersBoardTest( [
+                [1,2,3,4,5,6],
+                [0,0,0,0,0,0],
+                [0,0,0,0,0,0],
+                [0,0,0,0,0,0],
+                [0,0,0,0,0,0],
+                [7,8,9,10,11,12]
+            ]
+          ).
+
+testChoosePieceToMoveComputer(Piece):-
+    playersBoardTest(B),
+    choosePieceToMoveComputer(1,B,Piece).

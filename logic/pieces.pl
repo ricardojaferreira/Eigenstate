@@ -1,5 +1,6 @@
 :-['utils.pl'].
 consult('../cli/piece_cli.pl').
+consult('board.pl').
 
 pieceSquareSize(5).
 
@@ -47,14 +48,6 @@ startPiecePlayer(2, [
             ]
           ).
 
-startPiecePlayer(3, [
-              [1,0,0,0,1],
-              [1,0,0,0,0],
-              [0,0,8,0,0],
-              [1,0,1,0,0],
-              [1,0,0,0,1]
-          ]
-        ).
 
 %indice of first piece
 lastPiecePlayer(1,6).
@@ -106,21 +99,40 @@ getPegsByLine(X,Y,[_|T],Pegs):-
     Y1 is Y+1,
     getPegsByLine(X,Y1,T,Pegs).
 
-%Returns an array with all the pegs position
-%[[Column,Line],[Column,Line],...]
-%To translate movement First Line is -2 First Column is -2
-getPegsPositions(_X,[],P,[P]):-
+
+getEmptySpaceByLine(_X,_Y,[],[]):-
     !.
 
-getPegsPositions(X,[H|T],[],Pegs):-
-    getPegsByLine(X,-2,H,NewPegLine),
-    X1 is X+1,
-    getPegsPositions(X1,T,NewPegLine,Pegs).
+getEmptySpaceByLine(X,Y,[0|T],[[YE,X]|Empty]):-
+    Y1 is Y+1,
+    YE is Y+3,
+    getEmptySpaceByLine(X,Y1,T,Empty).
 
-getPegsPositions(X,[H|T],PrevPegs,[PrevPegs|Pegs]):-
-    getPegsByLine(X,-2,H,NewPegLine),
+getEmptySpaceByLine(X,Y,[_|T],Empty):-
+    Y1 is Y+1,
+    getEmptySpaceByLine(X,Y1,T,Empty).
+
+
+getByLine(P,LArgs):- G=.. [P|LArgs], G.
+
+%Returns an array with all the elements positions
+% If the Functor is getPegsByLine the positions will translate movement like folows
+%[[Column,Line],[Column,Line],...]
+%To translate movement First Line is -2 First Column is -2
+% Meaning that from the actual piece position it can go two positions down (-2) and two positions up (2)
+%If the Functor is getEmptySpaceByLine will return the actual position of the element 0 (empty)
+getPieceElementsPositions(_F,_X,[],P,[P]):-
+    !.
+
+getPieceElementsPositions(Functor,X,[H|T],[],Pegs):-
+    getByLine(Functor,[X,-2,H,NewPegLine]),
     X1 is X+1,
-    getPegsPositions(X1,T,NewPegLine,Pegs).
+    getPieceElementsPositions(Functor,X1,T,NewPegLine,Pegs).
+
+getPieceElementsPositions(Functor,X,[H|T],PrevPegs,[PrevPegs|Pegs]):-
+    getByLine(Functor,[X,-2,H,NewPegLine]),
+    X1 is X+1,
+    getPieceElementsPositions(Functor,X1,T,NewPegLine,Pegs).
 
 %%%
 % Remove pieces from the ListOfPieces based on a list that contains
@@ -133,7 +145,8 @@ searchPieceOnList([N|_X],[N|T],[N|T]).
 searchPieceOnList([_N|T],[L1|T1],H):-
     searchPieceOnList(T,[L1|T1],H).
 
-removeExtraPieces(_List,[],[]).
+removeExtraPieces(_List,[],[]):-
+    !.
 
 removeExtraPieces(List,[Piece|T1],[H|T2]):-
     searchPieceOnList(List,Piece,H),
@@ -149,11 +162,41 @@ updatePieceList(Board,ListOfPieces,NewListOfPieces):-
 movePiece(Player,PieceToMove,ListOfPieces,Board,NewListOfPieces,NewBoard):-
     getBoardCellPosition(Board,PieceToMove,1,1,Line,Column),
     getPieceByIndex(PieceToMove,ListOfPieces,Piece),
-    getPegsPositions(-2,Piece,[],Pegs),
+    getPieceElementsPositions(getPegsByLine,-2,Piece,[],Pegs),
     convertToSimpleList(Pegs,PegsPositions),
-    getPositionToMove(Player,PegsPositions,Line,Column,PosX,PosY),!,
+    getPositionToMove(Player,PegsPositions,Line,Column,PosX,PosY),
     movePieceOnBoard(Board,PieceToMove,PosX,PosY,NewBoard),
-    updatePieceList(Board,ListOfPieces,NewListOfPieces).
+    updatePieceList(NewBoard,ListOfPieces,NewListOfPieces).
+
+%%%%%%%%%%%%%%% PARA REMOVER PARA OUTRO FILE
+
+filterMoves(_Line,_Column,[],[]).
+
+filterMoves(Line,Column,[[Y,X]|T],[[PosY,PosX]|FT]):-
+    PosX is Line+X,
+    PosY is Column+Y,
+    between(1,6,PosX),
+    between(1,6,PosY),
+    filterMoves(Line,Column,T,FT).
+
+filterMoves(Line,Column,[_H|T],ValidMoves):-
+    filterMoves(Line,Column,T,ValidMoves).
+
+valid_moves(Board,Piece,PegsPositions,ValidMoves):-
+    getBoardCellPosition(Board,Piece,1,1,Line,Column),
+    filterMoves(Line,Column,PegsPositions,ValidMoves),!.
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+movePieceComputer(PieceToMove,ListOfPieces,Board,NewListOfPieces,NewBoard):-
+    getPieceByIndex(PieceToMove,ListOfPieces,Piece),
+    getPieceElementsPositions(getPegsByLine,-2,Piece,[],Pegs),
+    convertToSimpleList(Pegs,PegsPositions),!,
+    valid_moves(Board,PieceToMove,PegsPositions,ValidMoves),
+    chooseRandomElement(ValidMoves,Element),
+    getListValueByIndex(ValidMoves,Element,[PosY,PosX|_T]),
+    movePieceOnBoard(Board,PieceToMove,PosX,PosY,NewBoard),
+    updatePieceList(NewBoard,ListOfPieces,NewListOfPieces).
 
 getPositionToMove(Player,PegsPosition,Line,Column,PosX,PosY):-
     boardSquareSize(S),
@@ -218,16 +261,29 @@ addPegToPiece(Player,Board,ListOfPieces,NewListOfPieces):-
     updatePieceWithPeg(Piece,PegX,PegY,NewPiece),
     updateListOfPieces(ListOfPieces,PieceOnBoard,NewPiece,NewListOfPieces).
 
+addPegToPieceComputer(Player,Board,ListOfPieces,NewListOfPieces):-
+    getListOfPiecesForPlayer(Player,Board,ListAux),
+    convertToSimpleList(ListAux,List),
+    chooseRandomElement(List,RandomElement),
+    getListValueByIndex(List,RandomElement,PieceToAddPeg),
+    getPieceByIndex(PieceToAddPeg,ListOfPieces,Piece),
+    getPieceElementsPositions(getEmptySpaceByLine,1,Piece,[],EmptySpacesAux),
+    convertToSimpleList(EmptySpacesAux,EmptySpaces),
+    chooseRandomElement(EmptySpaces,RandomPosition),
+    getListValueByIndex(EmptySpaces,RandomPosition,[PosY,PosX]),
+    updatePieceWithPeg(Piece,PosX,PosY,NewPiece),
+    updateListOfPieces(ListOfPieces,PieceToAddPeg,NewPiece,NewListOfPieces).
+
 
 
 %%%%%%%%%%%%%%%%%%%%%%%%% TESTE %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
 listOfPieces([
-         [1,[[0,0,0,0,0],[0,0,1,0,0],[0,0,8,0,0],[0,0,0,0,0],[0,0,0,0,0]]],
+         [1,[[0,1,0,1,0],[0,0,0,1,0],[0,0,8,1,0],[0,1,0,1,0],[1,0,0,0,1]]],
          [2,[[0,0,0,0,0],[0,0,1,0,0],[0,0,8,0,0],[0,0,0,0,0],[0,0,0,0,0]]],
          [3,[[0,0,0,0,0],[0,0,1,0,0],[0,0,8,0,0],[0,0,0,0,0],[0,0,0,0,0]]],
          [4,[[0,0,0,0,0],[0,0,1,0,0],[0,0,8,0,0],[0,0,0,0,0],[0,0,0,0,0]]],
-         [5,[[0,0,0,0,0],[0,0,1,0,0],[0,0,8,0,0],[0,0,0,0,0],[0,0,0,0,0]]]
+         [5,[[0,1,0,1,0],[0,0,1,1,0],[0,1,8,1,0],[0,1,0,1,0],[0,1,0,1,0]]]
          ]).
 
 simpleList(         [[1,[[0,0],[0,0],[0,0],[0,0],[0,0]]],
@@ -238,7 +294,7 @@ simpleList(         [[1,[[0,0],[0,0],[0,0],[0,0],[0,0]]],
                     ]).
 
 startBoardTest( [
-                [1,2,3,4,5,6],
+                [1,2,3,4,5,0],
                 [0,0,0,0,0,0],
                 [0,0,0,0,0,0],
                 [0,0,0,0,0,0],
@@ -247,11 +303,24 @@ startBoardTest( [
             ]
           ).
 
+startPiecePlayerTest(1, [
+              [1,0,0,0,1],
+              [1,0,0,0,0],
+              [0,0,8,0,0],
+              [1,0,1,0,0],
+              [1,0,0,0,1]
+          ]
+        ).
+
 
 newPiece([
             [0,0,0,0,0],[0,0,1,0,0],[0,0,8,0,0],[0,0,0,0,0],[0,0,0,0,0]
          ]
          ).
+
+pieceMoves([[-2,-2],[-1,-2],[1,-1],[0,1],[-2,2],[0,2]]).
+
+pieceMovesInvalid([[-2,2]]).
 
 test(NL):-
     listOfPieces(L),
@@ -268,3 +337,21 @@ test2(NLP):-
     listOfPieces(LP),
     updatePieceWithPeg(P,1,1,NP),
     updateListOfPieces(LP,1,NP,NLP).
+
+testmovePieceComputer:-
+    listOfPieces(ListOfPieces),
+    startBoardTest(Board),
+    movePieceComputer(1,ListOfPieces,Board,NewListOfPieces,NewBoard),
+    write('New List of Pieces: '),write(NewListOfPieces),nl,
+    write('New Board: '),write(NewBoard),nl.
+
+testValidMoves(ValidMoves):-
+    startBoardTest(Board),
+    pieceMoves(Moves),
+    valid_moves(Board,1,Moves,ValidMoves).
+
+
+testAddPegToPieceComputer:-
+    startBoardTest(Board),
+    listOfPieces(ListOfPieces),
+    addPegToPieceComputer(1,Board,ListOfPieces,_NewListOfPieces).

@@ -80,9 +80,15 @@ checkBoardCellChoice(Player,Board,_PosX,_PosY,PieceToMove):-
 
 movePieceOnBoard([],_P,_X,_Y,[]).
 
-movePieceOnBoard([BoardLine|Rest],PieceToMove,1,PosY,[NewBoardH|Rest]):-
+movePieceOnBoard([BoardLine|Rest],PieceToMove,0,PosY,[NewLine|T]):-
     replaceElementInList(PieceToMove,0,BoardLine,NewLine),
-    replaceElementAtPosition(PieceToMove,PosY,NewLine,NewBoardH).
+    movePieceOnBoard(Rest,PieceToMove,0,PosY,T).
+
+movePieceOnBoard([BoardLine|Rest],PieceToMove,1,PosY,[NewBoardH|T]):-
+    replaceElementInList(PieceToMove,0,BoardLine,NewLine),
+    replaceElementAtPosition(PieceToMove,PosY,NewLine,NewBoardH),
+    Px is 0,
+    movePieceOnBoard(Rest,PieceToMove,Px,PosY,T).
 
 movePieceOnBoard([BoardLine|Rest],PieceToMove,PosX,PosY,[NewLine|T]):-
     replaceElementInList(PieceToMove,0,BoardLine,NewLine),

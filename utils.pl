@@ -42,8 +42,8 @@ joinLists(L1,[HL2|TL2],[HL2|TL3]):-
 % Convert a list like this [[[a],[b]],[[c],[d]]] to something like this
 % [[a],[b],[c],[d]]
 %
-convertToSimpleList(Pegs,Result):-
-    convertToSimpleListAux(Pegs,_Aux,Result),!.
+convertToSimpleList(List,Result):-
+    convertToSimpleListAux(List,_Aux,Result),!.
 
 convertToSimpleListAux([],R,R):-
     !.
@@ -152,6 +152,23 @@ countElementsOnMatrixAux(E,[L|T],[Aux|R]):-
 countElementsOnMatrix(E,Matrix,Result):-
     countElementsOnMatrixAux(E,Matrix,ResultsList),
     sumListElements(ResultsList,Result).
+
+getListLengthAux([],L,L).
+
+getListLengthAux([_H|T],A,L):-
+    A1 is A+1,
+    getListLengthAux(T,A1,L).
+
+getListLength(List,Length):-
+    getListLengthAux(List,0,Length).
+
+%%%
+% Select a random element from a list
+%%
+chooseRandomElement(List,Element):-
+    getListLength(List,Length),
+    random_between(1,Length,Element).
+
 
 
 %%%%%%%%%%%%%%%%%%%%%% TESTE %%%%%%%%%%%%%%%%%%%

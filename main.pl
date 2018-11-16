@@ -6,7 +6,7 @@ nextPlayer(1,2).
 nextPlayer(2,1).
 
 start:-
-%    print_disclaimer,
+    print_disclaimer,
     setPlayer(P1,1),
     setPlayer(P2,2),
     showPlayers(P1,P2),
@@ -22,14 +22,20 @@ playerAddPeg(Player,human,Board,ListOfPieces,NewListOfPieces):-
     addPegToPiece(Player,Board,ListOfPieces,NewListOfPieces),
     printBoard(Board,NewListOfPieces).
 
+playerAddPeg(Player,computer,Board,ListOfPieces,NewListOfPieces):-
+    addPegToPieceComputer(Player,Board,ListOfPieces,NewListOfPieces),
+    printBoard(Board,NewListOfPieces).
+
+
 playerMove(Player,human,ListOfPieces,Board,NewBoard,NewListOfPieces):-
     choosePieceToMove(Player,Board,PieceToMove),
     movePiece(Player,PieceToMove,ListOfPieces,Board,NewListOfPieces,NewBoard),
     printBoard(NewBoard,NewListOfPieces).
 
-
-%playerMove(Player,computer,ListOfPieces,Board):-
-%    !.
+playerMove(Player,computer,ListOfPieces,Board,NewBoard,NewListOfPieces):-
+    choosePieceToMoveComputer(Player,Board,PieceToMove),
+    movePieceComputer(PieceToMove,ListOfPieces,Board,NewListOfPieces,NewBoard),
+    printBoard(NewBoard,NewListOfPieces).
 
 gameLoop(Player,P1Type,P2Type,ListOfPieces,Board):-
     getCurrentPlayerType(Player,P1Type,P2Type,Type),
