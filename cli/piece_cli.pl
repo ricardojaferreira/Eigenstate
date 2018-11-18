@@ -49,7 +49,7 @@ showErrorPieceDoesNotBelongToPlayer:-
 
 showErrorPieceCannotBeMovedToThatLocation:-
     errorFontColor(Color),
-    ansi_format([fg(Color)],'~w',['This piece cannot to go that position.']),
+    ansi_format([fg(Color)],'~w',['This piece cannot go to that position.']),
     nl.
 
 showErrorInvalidPositionForPeg:-

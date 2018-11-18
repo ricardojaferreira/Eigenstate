@@ -22,23 +22,37 @@ playerAddPeg(Player,human,Board,ListOfPieces,NewListOfPieces):-
     addPegToPiece(Player,Board,ListOfPieces,NewListOfPieces),
     printBoard(Board,NewListOfPieces).
 
-playerAddPeg(Player,computer,Board,ListOfPieces,NewListOfPieces):-
+playerAddPeg(Player,computerRandom,Board,ListOfPieces,NewListOfPieces):-
     addPegToPieceComputer(Player,Board,ListOfPieces,NewListOfPieces),
     printBoard(Board,NewListOfPieces).
 
+playerAddPeg(Player,computerAI,Board,ListOfPieces,ListOfPieces):-
+    write('DEBUG: Adding Pegs AI'), nl.
 
 playerMove(Player,human,ListOfPieces,Board,NewBoard,NewListOfPieces):-
     choosePieceToMove(Player,Board,PieceToMove),
     movePiece(Player,PieceToMove,ListOfPieces,Board,NewListOfPieces,NewBoard),
     printBoard(NewBoard,NewListOfPieces).
 
-playerMove(Player,computer,ListOfPieces,Board,NewBoard,NewListOfPieces):-
+playerMove(Player,computerRandom,ListOfPieces,Board,NewBoard,NewListOfPieces):-
     choosePieceToMoveComputer(Player,Board,PieceToMove),
     movePieceComputer(PieceToMove,ListOfPieces,Board,NewListOfPieces,NewBoard),
     printBoard(NewBoard,NewListOfPieces).
 
+playerMove(Player,computerAI,ListOfPieces,Board,NewBoard,NewListOfPieces):-
+    choosePieceToMoveComputerAI(Player,Board,ListOfPieces,PieceToMove,PosX,PosY),
+    movePieceOnBoard(Board,PieceToMove,PosX,PosY,NewBoard),
+%    write('DEBUG: Board after AI: '),write(NewBoard),nl,
+    updatePieceList(NewBoard,ListOfPieces,NewListOfPieces),
+%    write('DEBUG: List Of Pieces after AI: '),write(NewListOfPieces),nl,
+%    read(_B),
+    printBoard(NewBoard,NewListOfPieces).
+
 gameLoop(Player,P1Type,P2Type,ListOfPieces,Board):-
     getCurrentPlayerType(Player,P1Type,P2Type,Type),
+%    nl,nl,write('DEBUG: Player Type: '),write(Type),nl,
+%    write('DEBUG: Player Number: '),write(Player),nl,
+%    read(_A),
     playerMove(Player,Type,ListOfPieces,Board,BoardMove,ListOfPiecesMove),
     checkVictory(BoardMove,ListOfPiecesMove),
     playerAddPeg(Player,Type,BoardMove,ListOfPiecesMove,ListOfPiecesPeg),

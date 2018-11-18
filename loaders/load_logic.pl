@@ -3,3 +3,4 @@
 :-['../logic/board.pl'].
 :-['../logic/pieces.pl'].
 :-['../logic/victory.pl'].
+:-['../logic/ai/move.pl'].

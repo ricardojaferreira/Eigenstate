@@ -2,10 +2,11 @@
 :-['pieces.pl'].
 
 
-playerTypesAvailable([0,1]).
+playerTypesAvailable([0,1,2]).
 
 playerType(0,human).
-playerType(1,computer).
+playerType(1,computerRandom).
+playerType(2,computerAI).
 
 %%%
 % Checks if the player is one of the availables
@@ -17,7 +18,15 @@ isPlayerTypeAvailable(Type,[_X|T]):-
 
 %%%
 % Checks the type chosen by the user
+% Since we are using read, capital letters are free variables. For those cases the
+% first condition will void the choice.
 %%
+checkType(X,Result):-
+    var(X),
+    playerTypesAvailable(Types),
+    askPlayerToChooseAgain(Types, Choice),
+    checkType(Choice,Result).
+
 checkType(Type,[Type|_T]):-
     playerTypesAvailable(Types),
     isPlayerTypeAvailable(Type, Types).

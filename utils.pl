@@ -162,6 +162,33 @@ getListLengthAux([_H|T],A,L):-
 getListLength(List,Length):-
     getListLengthAux(List,0,Length).
 
+%0 means that the element wasn't found. First position on list is 1.
+getListElementPositionAux(_Element,[],_Aux,0).
+
+getListElementPositionAux(Element,[Element|_L],Position,Position).
+
+getListElementPositionAux(Element,[_E|L],Aux,Position):-
+    Aux1 is Aux+1,
+    getListElementPositionAux(Element,L,Aux1,Position).
+
+getListElementPosition(Element,List,Position):-
+    getListElementPositionAux(Element,List,1,Position).
+
+getMatrixElementPositionAux(_Element,[],_CurrentX,0,0).
+
+getMatrixElementPositionAux(Element,[Me|_Ml],CurrentX,CurrentX,PosY):-
+    getListElementPosition(Element,Me,PosY),
+    PosY > 0.
+
+getMatrixElementPositionAux(Element,[_Me|Ml],CurrentX,PosX,PosY):-
+    X is CurrentX+1,
+    getMatrixElementPositionAux(Element,Ml,X,PosX,PosY).
+
+getMatrixElementPosition(Element,Matrix,PosX,PosY):-
+    getMatrixElementPositionAux(Element,Matrix,1,PosX,PosY),
+    PosX > 0,
+    PosY > 0.
+
 %%%
 % Select a random element from a list
 %%
@@ -170,14 +197,44 @@ chooseRandomElement(List,Element):-
     random_between(1,Length,Element).
 
 
+%A list Map is something like [[Index,[List]],[Index,[List]]]
+%This function will return a simple list with all the indexes
+%The function receives a Map like the previous and returns the Indexes.
+getIndexOfListMap([],[]).
+getIndexOfListMap([[I,_L]|M],[I|Il]):-
+    getIndexOfListMap(M,Il).
+
+getMaxNumberAux([],Max,Max).
+
+getMaxNumberAux([Ln|L],N,Max):-
+    Ln>N,
+    getMaxNumberAux(L,Ln,Max).
+
+getMaxNumberAux([_Ln|L],N,Max):-
+    getMaxNumberAux(L,N,Max).
+
+getMaxNumber([N|L],Max):-
+    getMaxNumberAux(L,N,Max).
+
+%%
+getAllElementsFromMapById(_Id,[],[]).
+
+getAllElementsFromMapById(Id,[[Id,Element]|M],[Element|R]):-
+    getAllElementsFromMapById(Id,M,R).
+
+getAllElementsFromMapById(Id,[_E|M],R):-
+    getAllElementsFromMapById(Id,M,R).
+
+
+
 
 %%%%%%%%%%%%%%%%%%%%%% TESTE %%%%%%%%%%%%%%%%%%%
 
 matrix1([
     [0,0,1,1,1],
     [1,1,1,1,1],
-    [1,1,8,1,1],
-    [0,0,0,1,1],
+    [1,1,1,1,1],
+    [0,8,0,1,1],
     [1,1,0,0,1]
 ]).
 
@@ -190,3 +247,17 @@ testCountElementsOnMatrix(Result):-
 testCountElementsOnList(Result):-
     list1(L),
     countElementsOnList(1,L,Result).
+
+testGetMatrixElementPosition(PosX,PosY):-
+    matrix1(X),
+    getMatrixElementPosition(8,X,PosX,PosY).
+
+
+testGetIndexOfListMap(Index):-
+    getIndexOfListMap([[245,[1,4,5]],[201,[4,4,9]],[2,[5,3,5]],[24,[1,6,8]]],Index).
+
+testGetMaxNumber(Max):-
+    getMaxNumber([4,8,39,564,2,10,56],Max).
+
+testGetAllElementsFromMapById(Result):-
+    getAllElementsFromMapById(72,[[245,[1,4,5]],[72,[4,4,9]],[2,[5,3,5]],[72,[1,6,8]]],Result).

@@ -164,7 +164,13 @@ movePiece(Player,PieceToMove,ListOfPieces,Board,NewListOfPieces,NewBoard):-
     getPieceByIndex(PieceToMove,ListOfPieces,Piece),
     getPieceElementsPositions(getPegsByLine,-2,Piece,[],Pegs),
     convertToSimpleList(Pegs,PegsPositions),
+%    write('DEBUG: PegsPositons: '),write(PegsPositions),nl,
+%    read(_A),
     getPositionToMove(Player,PegsPositions,Line,Column,PosX,PosY),
+%    write('DEBUG: PosX to Move: '),write(PosX),nl,
+%    write('DEBUG: PosY to Move: '),write(PosY),nl,
+%    write('BEGUG: Piece to Move: '),write(PieceToMove),nl,
+%    read(_B),
     movePieceOnBoard(Board,PieceToMove,PosX,PosY,NewBoard),
     updatePieceList(NewBoard,ListOfPieces,NewListOfPieces).
 
