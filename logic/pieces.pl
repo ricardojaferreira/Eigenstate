@@ -7,6 +7,8 @@ pieceSquareSize(5).
 %Max Number of Pieces per Player
 numberOfPiecesPerPlayer(6).
 
+piecePegSymbol(1).
+
 %Calculates the maximum number of pegs per piece
 %Depends on the size of the piece, in that way changing just one predicate this is also updated.
 numberOfPegsPerPiece(N):-
@@ -47,7 +49,6 @@ startPiecePlayer(2, [
                 [0,0,0,0,0]
             ]
           ).
-
 
 %indice of first piece
 lastPiecePlayer(1,6).
@@ -99,6 +100,17 @@ getPegsByLine(X,Y,[_|T],Pegs):-
     Y1 is Y+1,
     getPegsByLine(X,Y1,T,Pegs).
 
+getFutureMovementByLine(_X,_Y,[],[]):-
+    !.
+
+getFutureMovementByLine(X,Y,[0|T],[[Y,X]|Pegs]):-
+    Y1 is Y+1,
+    getFutureMovementByLine(X,Y1,T,Pegs).
+
+getFutureMovementByLine(X,Y,[_|T],Pegs):-
+    Y1 is Y+1,
+    getFutureMovementByLine(X,Y1,T,Pegs).
+
 
 getEmptySpaceByLine(_X,_Y,[],[]):-
     !.
@@ -121,6 +133,7 @@ getByLine(P,LArgs):- G=.. [P|LArgs], G.
 %To translate movement First Line is -2 First Column is -2
 % Meaning that from the actual piece position it can go two positions down (-2) and two positions up (2)
 %If the Functor is getEmptySpaceByLine will return the actual position of the element 0 (empty)
+%If functor is getFutureMovementByLine will return the positions of empty spaces, translated to movement
 getPieceElementsPositions(_F,_X,[],P,[P]):-
     !.
 

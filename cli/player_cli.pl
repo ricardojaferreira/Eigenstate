@@ -97,3 +97,13 @@ showPlayerTypes(Type1, Type2):-
     ansi_format([fg(FactColor)],'~w~w~w',['Player 1 is ',Type1,'.']),
     nl,
     ansi_format([fg(FactColor)],'~w~w~w',['Player 2 is ',Type2,'.']).
+
+waitForPlayerMove(Player):-
+    inGameColor(C),
+    ansi_format([fg(C)],'~w~w~w',['Player ',Player,' - Press enter to Move.']),
+    get_code(_).
+
+waitForPlayerToAddPeg(Player):-
+    inGameColor(C),
+    ansi_format([fg(C)],'~w~w~w',['Player ',Player,' - Press enter to add peg.']),
+    get_code(_).

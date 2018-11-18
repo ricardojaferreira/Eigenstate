@@ -1,10 +1,15 @@
 :-['logic/pieces.pl'].
 
-checkVictory(Board,_ListOfPieces):-
-    victoryByEatPieces(Board).
+%Get Next Game Loop after checking Victory
+nextGameLoop(1,2).
+nextGameLoop(2,3).
+nextGameLoop(3,1).
 
-checkVictory(_Board, ListOfPieces):-
-    victoryByPieceWithPegs(ListOfPieces).
+checkVictory(Loop,Board,_ListOfPieces,NextLoop,Winner):-
+    victoryByEatPieces(Board,Loop,NextLoop,Winner).
+
+checkVictory(Loop,_Board,ListOfPieces,NextLoop,Winner):-
+    victoryByPieceWithPegs(ListOfPieces,Loop,NextLoop,Winner).
 
 %checkVictory(Board,ListOfPieces):-
 %    victoryByPegs(Board,ListOfPieces).
@@ -43,30 +48,29 @@ countPlayersPieces(Board,PiecesP1,PiecesP2):-
 % If both players have 2 pieces we need to check the pegs
 %
 %%
-playerVictoryByPieces(PiecesP1,PiecesP2):-
+playerVictoryByPieces(PiecesP1,PiecesP2,Loop,NextLoop,_Winner):-
         PiecesP1>2,
-        PiecesP2>2.
+        PiecesP2>2,
+        nextGameLoop(Loop,NextLoop).
 
-playerVictoryByPieces(PiecesP1,PiecesP2):-
+playerVictoryByPieces(PiecesP1,PiecesP2,_Loop,NextLoop,1):-
         PiecesP1>1,
         PiecesP2=<1,
-        write('Player 1 wins!'),
-        halt.
+        NextLoop is 4.
 
-playerVictoryByPieces(PiecesP1,PiecesP2):-
+playerVictoryByPieces(PiecesP1,PiecesP2,_Loop,NextLoop,2):-
         PiecesP1=<1,
         PiecesP2>1,
-        write('Player 2 wins!'),
-        halt.
+        NextLoop is 4.
 
-playerVictoryByPieces(PiecesP1,PiecesP2):-
+playerVictoryByPieces(PiecesP1,PiecesP2,_Loop,_NextLoop,_Winner):-
         PiecesP1=2,
         PiecesP2=2,
         !,fail.
 
-victoryByEatPieces(Board):-
+victoryByEatPieces(Board,Loop,NextLoop,Winner):-
     countPlayersPieces(Board,PiecesP1,PiecesP2),!,
-    playerVictoryByPieces(PiecesP1,PiecesP2),!.
+    playerVictoryByPieces(PiecesP1,PiecesP2,Loop,NextLoop,Winner),!.
 
 
 %%%
@@ -86,42 +90,43 @@ checkPegsForPlayer(Player,[_H|T],NP):-
 %%%
 % Will check if any player has a piece with the maximum number of pegs
 %%
-playerVictoryByPegs(P1,P2):-
+playerVictoryByPegs(P1,P2,_Loop,NextLoop,Winner):-
     P1>=1,
     P2>=1,
-    write("It's a draw"),
-    halt.
+    NextLoop is 4,
+    Winner is 3.
 
-playerVictoryByPegs(P1,P2):-
+playerVictoryByPegs(P1,P2,_Loop,NextLoop,Winner):-
     P1>=1,
     P2=0,
-    write("Player 1 Wins"),
-    halt.
+    NextLoop is 4,
+    Winner is 1.
 
-playerVictoryByPegs(P1,P2):-
+playerVictoryByPegs(P1,P2,_Loop,NextLoop,Winner):-
     P1=0,
     P2>=1,
-    write("Player 2 Wins"),
-    halt.
+    NextLoop is 4,
+    Winner is 2.
 
-playerVictoryByPegs(P1,P2):-
+playerVictoryByPegs(P1,P2,Loop,NextLoop,_Winner):-
     P1=0,
-    P2=0.
+    P2=0,
+    nextGameLoop(Loop,NextLoop).
 
-playerHasMaxedPegs(PegsP1,PegsP2):-
+playerHasMaxedPegs(PegsP1,PegsP2,Loop,NextLoop,Winner):-
     numberOfPegsPerPiece(N),
     countElementsOnList(N,PegsP1,P1),
     countElementsOnList(N,PegsP2,P2),
-    playerVictoryByPegs(P1,P2).
+    playerVictoryByPegs(P1,P2,Loop,NextLoop,Winner).
 
 %%%
 % At this point there should be only 4 pieces on the list,
 % 2 for player 1 and 2 for player 2
 %%%
-victoryByPieceWithPegs(ListOfPieces):-
+victoryByPieceWithPegs(ListOfPieces,Loop,NextLoop,Winner):-
     checkPegsForPlayer(1,ListOfPieces,PegsP1),
     checkPegsForPlayer(2,ListOfPieces,PegsP2),
-    playerHasMaxedPegs(PegsP1,PegsP2).
+    playerHasMaxedPegs(PegsP1,PegsP2,Loop,NextLoop,Winner).
 
 % count the number of pegs per piece, per player Result->[10,20]
 % Check how many elements on the list is equal to the size of max pegs, per player

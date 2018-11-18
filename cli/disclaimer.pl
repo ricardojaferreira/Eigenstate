@@ -16,3 +16,9 @@ print_disclaimer :-
     print_char(banner,'-',50),
     print_message(banner, game_info('Ricardo Ferreira', 'up200305418', 0,0,0)),
     nl.
+
+
+print_gameOver_message(Winner):-
+    nl,
+    write('Winner is Player: '),write(Winner),nl,
+    print_message(banner, single_line('Goodbye')).

@@ -261,3 +261,6 @@ testGetMaxNumber(Max):-
 
 testGetAllElementsFromMapById(Result):-
     getAllElementsFromMapById(72,[[245,[1,4,5]],[72,[4,4,9]],[2,[5,3,5]],[72,[1,6,8]]],Result).
+
+testGetListLength(L):-
+    getListLength([[1,2],[4,6]],L).

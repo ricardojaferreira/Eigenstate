@@ -15,19 +15,21 @@ start:-
     initPiecesPlayer(2,PP2),
     joinLists(PP2,PP1,ListOfPieces),
     printBoard(Board,ListOfPieces),
-    gameLoop(1,P1,P2,ListOfPieces,Board).
-
+    gameLoop(1,1,P1,P2,ListOfPieces,Board,_Winner).
 
 playerAddPeg(Player,human,Board,ListOfPieces,NewListOfPieces):-
     addPegToPiece(Player,Board,ListOfPieces,NewListOfPieces),
     printBoard(Board,NewListOfPieces).
 
 playerAddPeg(Player,computerRandom,Board,ListOfPieces,NewListOfPieces):-
+    waitForPlayerToAddPeg(Player),
     addPegToPieceComputer(Player,Board,ListOfPieces,NewListOfPieces),
     printBoard(Board,NewListOfPieces).
 
-playerAddPeg(Player,computerAI,Board,ListOfPieces,ListOfPieces):-
-    write('DEBUG: Adding Pegs AI'), nl.
+playerAddPeg(Player,computerAI,Board,ListOfPieces,NewListOfPieces):-
+    waitForPlayerToAddPeg(Player),
+    addPegToPieceComputerAI(Player,Board,ListOfPieces,NewListOfPieces),
+    printBoard(Board,NewListOfPieces).
 
 playerMove(Player,human,ListOfPieces,Board,NewBoard,NewListOfPieces):-
     choosePieceToMove(Player,Board,PieceToMove),
@@ -35,32 +37,44 @@ playerMove(Player,human,ListOfPieces,Board,NewBoard,NewListOfPieces):-
     printBoard(NewBoard,NewListOfPieces).
 
 playerMove(Player,computerRandom,ListOfPieces,Board,NewBoard,NewListOfPieces):-
+    waitForPlayerMove(Player),
     choosePieceToMoveComputer(Player,Board,PieceToMove),
     movePieceComputer(PieceToMove,ListOfPieces,Board,NewListOfPieces,NewBoard),
     printBoard(NewBoard,NewListOfPieces).
 
 playerMove(Player,computerAI,ListOfPieces,Board,NewBoard,NewListOfPieces):-
+    waitForPlayerMove(Player),
     choosePieceToMoveComputerAI(Player,Board,ListOfPieces,PieceToMove,PosX,PosY),
     movePieceOnBoard(Board,PieceToMove,PosX,PosY,NewBoard),
-%    write('DEBUG: Board after AI: '),write(NewBoard),nl,
     updatePieceList(NewBoard,ListOfPieces,NewListOfPieces),
-%    write('DEBUG: List Of Pieces after AI: '),write(NewListOfPieces),nl,
-%    read(_B),
     printBoard(NewBoard,NewListOfPieces).
 
-gameLoop(Player,P1Type,P2Type,ListOfPieces,Board):-
+%Loops:
+% 1 - Choose Piece to Move
+% 2 - Add Peg to Piece
+% 3 - Add Peg to Piece
+% 4 - Game Victory
+gameLoop(1,Player,P1Type,P2Type,ListOfPieces,Board,_W):-
     getCurrentPlayerType(Player,P1Type,P2Type,Type),
-%    nl,nl,write('DEBUG: Player Type: '),write(Type),nl,
-%    write('DEBUG: Player Number: '),write(Player),nl,
-%    read(_A),
     playerMove(Player,Type,ListOfPieces,Board,BoardMove,ListOfPiecesMove),
-    checkVictory(BoardMove,ListOfPiecesMove),
-    playerAddPeg(Player,Type,BoardMove,ListOfPiecesMove,ListOfPiecesPeg),
-    checkVictory(BoardMove,ListOfPiecesPeg),
-    playerAddPeg(Player,Type,BoardMove,ListOfPiecesPeg,ListOfPiecesLastPeg),
-    checkVictory(BoardMove,ListOfPiecesLastPeg),
+    checkVictory(1,BoardMove,ListOfPiecesMove,NextLoop,Winner),
+    gameLoop(NextLoop,Player,P1Type,P2Type,ListOfPiecesMove,BoardMove,Winner).
+
+gameLoop(2,Player,P1Type,P2Type,ListOfPieces,Board,_W):-
+    getCurrentPlayerType(Player,P1Type,P2Type,Type),
+    playerAddPeg(Player,Type,Board,ListOfPieces,ListOfPiecesPeg),
+    checkVictory(2,Board,ListOfPiecesPeg,NextLoop,Winner),
+    gameLoop(NextLoop,Player,P1Type,P2Type,ListOfPiecesPeg,Board,Winner).
+
+gameLoop(3,Player,P1Type,P2Type,ListOfPieces,Board,_W):-
+    getCurrentPlayerType(Player,P1Type,P2Type,Type),
+    playerAddPeg(Player,Type,Board,ListOfPieces,ListOfPiecesLastPeg),
+    checkVictory(3,Board,ListOfPiecesLastPeg,NextLoop,Winner),
     nextPlayer(Player,NextPlayer),
-    gameLoop(NextPlayer,P1Type,P2Type,ListOfPiecesLastPeg,BoardMove).
+    gameLoop(NextLoop,NextPlayer,P1Type,P2Type,ListOfPiecesLastPeg,Board,Winner).
+
+gameLoop(4,_P,_T1,_T2,_LP,_B,Winner):-
+    print_gameOver_message(Winner).
 
 
 

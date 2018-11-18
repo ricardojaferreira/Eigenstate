@@ -37,6 +37,7 @@ startBoard( [
             ]
           ).
 
+
 getBoardCellValue(Board,PosX,PosY,Value):-
     X1 is PosX-1,
     discardElementsFromList(Board,X1,[Line|_]),

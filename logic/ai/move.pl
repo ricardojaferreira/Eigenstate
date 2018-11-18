@@ -6,10 +6,12 @@
 
 %The weights are based on the number of surrounding cells
 %Each cell can have a maximum of 24 cells around it.
-weightOfAdversaryCells(72).
+weightOfOpponentCells(72).
 weightOfEmptyCells(48).
 weightOfPlayerCells(0).
 
+%If more than one movement have the max score a random movement
+%is choosed to avoid the same starting point on different games.
 choosePieceToMoveComputerAI(Player,Board,ListOfPieces,Piece,PosX,PosY):-
     getListOfPiecesForPlayer(Player,Board,ListAux),
     convertToSimpleList(ListAux,List),
@@ -17,11 +19,12 @@ choosePieceToMoveComputerAI(Player,Board,ListOfPieces,Piece,PosX,PosY):-
     evaluatePiecesAround(List,ListOfPieces,Board,1,WeightBoard,BalancedWeightBoard),
     getListOfPiecesAndMovesByScore(List,ListOfPieces,Board,BalancedWeightBoard,PiecesAndMovesAux),
     convertToSimpleList(PiecesAndMovesAux,PiecesAndMoves),
-    getIndexOfListMap(PiecesAndMoves,Indexes),
-    getMaxNumber(Indexes,MaxScore),
-    getAllElementsFromMapById(MaxScore,PiecesAndMoves,ListOfPiecesToMove),
-    chooseRandomElement(ListOfPiecesToMove,Element),
-    getListValueByIndex(ListOfPiecesToMove,Element,[Piece,PosX,PosY]).
+    getBestChoiceByScore(PiecesAndMoves,Piece,PosX,PosY).
+%    getIndexOfListMap(PiecesAndMoves,Indexes),
+%    getMaxNumber(Indexes,MaxScore),
+%    getAllElementsFromMapById(MaxScore,PiecesAndMoves,ListOfPiecesToMove),
+%    chooseRandomElement(ListOfPiecesToMove,Element),
+%    getListValueByIndex(ListOfPiecesToMove,Element,[Piece,PosX,PosY]).
 
 
 %%%
@@ -37,7 +40,7 @@ generateWeightBoardLine(List,[Be|Bl],[Wbe|Wbl]):-
     generateWeightBoardLine(List,Bl,Wbl).
 
 generateWeightBoardLine(List,[_Be|Bl],[Wbe|Wbl]):-
-    weightOfAdversaryCells(Wbe),
+    weightOfOpponentCells(Wbe),
     generateWeightBoardLine(List,Bl,Wbl).
 
 generateWeightBoard(_List,[],[]).
