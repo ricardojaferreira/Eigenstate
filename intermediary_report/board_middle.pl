@@ -1,5 +1,5 @@
-:-['printutils.pl'].
-:-['utils.pl'].
+%:-['printutils.pl'].
+%:-['utils.pl'].
 
 emptyBoard( [
                 ['e','e','e','e','e','e'],
@@ -12,12 +12,12 @@ emptyBoard( [
           ).
 
 startBoard( [
-                ['e','e','e','e','e','e'],
+                ['b1','e','b3','e','b5','b6'],
                 ['e','e','e','b4','e','e'],
                 ['e','e','b2','e','e','e'],
-                ['e','e','e','e','e','e'],
-                ['e','e','e','e','e','e'],
-                ['e','e','a3','e','e','e']
+                ['e','a1','e','a5','e','e'],
+                ['e','a2','e','e','e','e'],
+                ['e','e','a3','a4','e','a6']
             ]
           ).
 
@@ -31,10 +31,10 @@ startPiecePlayer1( [
           ).
 
 startPiecePlayer2( [
-                ['o','*','*','o','*'],
-                ['o','*','o','o','*'],
-                ['*','*','@','o','o'],
-                ['o','*','*','o','o'],
+                ['o','o','o','o','o'],
+                ['o','*','o','o','o'],
+                ['o','o','@','o','o'],
+                ['o','o','*','o','o'],
                 ['*','o','o','o','o']
             ]
           ).
@@ -204,7 +204,7 @@ boardLine(C,[H|T]):-
 
     boardLine(Column,T).
 
-printBoard:-
+display_game:-
     nl,
     ansi_format([bold,fg(white)],'~w',['         A             B             C             D             E             F        ']),
     print_char(border,':',88),

@@ -1,6 +1,3 @@
-:-['printutils.pl'].
-:-['../logic/pieces.pl'].
-
 translatePieceCell(0,'O').
 translatePieceCell(1,'*').
 translatePieceCell(8,'@').

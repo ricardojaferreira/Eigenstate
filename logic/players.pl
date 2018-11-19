@@ -1,7 +1,3 @@
-:-['../cli/player_cli.pl'].
-:-['pieces.pl'].
-
-
 playerTypesAvailable([0,1,2]).
 
 playerType(0,human).
@@ -88,7 +84,7 @@ choosePieceToMoveComputer(Player,Board,PieceToMove):-
     getListValueByIndex(List,RandomElement,PieceToMove).
 
 
-%%%%%%%%%%%%%%%% TESTE %%%%%%%%%%%%%%%%%%%%%%%%
+%%%%%%%%%%%%%%%% TEST %%%%%%%%%%%%%%%%%%%%%%%%
 
 playersBoardTest( [
                 [1,2,3,4,5,6],

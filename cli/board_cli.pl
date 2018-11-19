@@ -1,6 +1,3 @@
-:-['printutils.pl'].
-:-['piece_cli.pl'].
-
 boardCell(1,0,': : : : : : :').
 boardCell(0,0,'             ').
 
@@ -103,7 +100,7 @@ boardLine(C,[H|T],ListOfPieces):-
     boardLine(Column,T,ListOfPieces).
 
 
-printBoard(Board,ListOfPieces):-
+display_game(Board,ListOfPieces):-
     nl,
     ansi_format([bold,fg(white)],'~w',['         A             B             C             D             E             F        ']),
     print_char(border,':',88),

@@ -1,7 +1,3 @@
-:-['utils.pl'].
-consult('../cli/piece_cli.pl').
-consult('board.pl').
-
 pieceSquareSize(5).
 
 %Max Number of Pieces per Player
@@ -177,25 +173,18 @@ movePiece(Player,PieceToMove,ListOfPieces,Board,NewListOfPieces,NewBoard):-
     getPieceByIndex(PieceToMove,ListOfPieces,Piece),
     getPieceElementsPositions(getPegsByLine,-2,Piece,[],Pegs),
     convertToSimpleList(Pegs,PegsPositions),
-%    write('DEBUG: PegsPositons: '),write(PegsPositions),nl,
-%    read(_A),
     getPositionToMove(Player,PegsPositions,Line,Column,PosX,PosY),
-%    write('DEBUG: PosX to Move: '),write(PosX),nl,
-%    write('DEBUG: PosY to Move: '),write(PosY),nl,
-%    write('BEGUG: Piece to Move: '),write(PieceToMove),nl,
-%    read(_B),
     movePieceOnBoard(Board,PieceToMove,PosX,PosY,NewBoard),
     updatePieceList(NewBoard,ListOfPieces,NewListOfPieces).
-
-%%%%%%%%%%%%%%% PARA REMOVER PARA OUTRO FILE
 
 filterMoves(_Line,_Column,[],[]).
 
 filterMoves(Line,Column,[[Y,X]|T],[[PosY,PosX]|FT]):-
     PosX is Line+X,
     PosY is Column+Y,
-    between(1,6,PosX),
-    between(1,6,PosY),
+    boardSquareSize(S),
+    between(1,S,PosX),
+    between(1,S,PosY),
     filterMoves(Line,Column,T,FT).
 
 filterMoves(Line,Column,[_H|T],ValidMoves):-
@@ -204,8 +193,6 @@ filterMoves(Line,Column,[_H|T],ValidMoves):-
 valid_moves(Board,Piece,PegsPositions,ValidMoves):-
     getBoardCellPosition(Board,Piece,1,1,Line,Column),
     filterMoves(Line,Column,PegsPositions,ValidMoves),!.
-
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
 movePieceComputer(PieceToMove,ListOfPieces,Board,NewListOfPieces,NewBoard):-
     getPieceByIndex(PieceToMove,ListOfPieces,Piece),
@@ -295,7 +282,7 @@ addPegToPieceComputer(Player,Board,ListOfPieces,NewListOfPieces):-
 
 
 
-%%%%%%%%%%%%%%%%%%%%%%%%% TESTE %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%%%%%%%%%%%%%%%%%%%%%%%%% TEST %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
 listOfPieces([
          [1,[[0,1,0,1,0],[0,0,0,1,0],[0,0,8,1,0],[0,1,0,1,0],[1,0,0,0,1]]],

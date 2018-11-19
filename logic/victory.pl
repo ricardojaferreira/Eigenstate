@@ -1,18 +1,13 @@
-:-['logic/pieces.pl'].
-
 %Get Next Game Loop after checking Victory
 nextGameLoop(1,2).
 nextGameLoop(2,3).
 nextGameLoop(3,1).
 
-checkVictory(Loop,Board,_ListOfPieces,NextLoop,Winner):-
+game_over(Loop,Board,_ListOfPieces,NextLoop,Winner):-
     victoryByEatPieces(Board,Loop,NextLoop,Winner).
 
-checkVictory(Loop,_Board,ListOfPieces,NextLoop,Winner):-
+game_over(Loop,_Board,ListOfPieces,NextLoop,Winner):-
     victoryByPieceWithPegs(ListOfPieces,Loop,NextLoop,Winner).
-
-%checkVictory(Board,ListOfPieces):-
-%    victoryByPegs(Board,ListOfPieces).
 
 countByLine([],_P,N,N).
 
@@ -137,7 +132,7 @@ victoryByPieceWithPegs(ListOfPieces,Loop,NextLoop,Winner):-
 
 
 
-%%%%%%%%%% TESTE %%%%%%%%%%%%
+%%%%%%%%%% TEST %%%%%%%%%%%%
 
 victoryBoardTest( [
                 [1,2,0,0,0,0],
@@ -158,7 +153,7 @@ listOfPiecesVictory([
 
 testVictoryCountPiecesOfPlayers:-
     victoryBoardTest(X),
-    checkVictory(X,_Y).
+    game_over(X,_Y).
 
 
 testCheckPegsForPlayer(Pegs):-

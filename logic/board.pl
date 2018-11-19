@@ -1,15 +1,9 @@
-:-['../cli/board_cli.pl'].
-:-['pieces.pl'].
-
 boardLines(6).
 boardColumns(6).
 boardSquareSize(6).
 
-%boardCell(1,'0',': : : : : : :').
-%boardCell(0,'0','             ').
-
 %%%
-% An empty Board without any pice
+% An empty Board without any piece
 %%
 emptyBoard( [
                 [0,0,0,0,0,0],

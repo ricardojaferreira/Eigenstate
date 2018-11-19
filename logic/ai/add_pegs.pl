@@ -141,7 +141,7 @@ strategyGoFurther(Pieces,Board,ListOfPieces,BalancedWeightBoard,NewListOfPieces)
 
 
 
-%%%%%%%%%%% TESTES
+%%%%%%%%%%% TEST %%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
 aiPegsBoardTest( [
                 [0,2,3,0,0,0],

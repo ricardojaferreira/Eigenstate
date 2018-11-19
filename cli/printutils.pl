@@ -1,4 +1,3 @@
-:-['../utils.pl'].
 :- multifile prolog:message/1.
 :- multifile user:message_property/2.
 
@@ -10,6 +9,7 @@ user:message_property(border, color([fg(magenta)])).
 %Font colors for ansi
 questionFontColor(blue).
 factFontColor(green).
+gameOverFontColor(blue).
 errorFontColor(red).
 borderColor(magenta).
 playerColor(1,green).

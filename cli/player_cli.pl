@@ -1,7 +1,3 @@
-:-['printutils.pl'].
-%:-['board_cli.pl'].
-
-% This translation is a bit hardcoded, should the cli know about the logic states?
 printChoice(0, '0: Human').
 printChoice(1, '1: Computer Random').
 printChoice(2, '2: Computer AI').
@@ -9,7 +5,6 @@ printChoice(2, '2: Computer AI').
 %%%
 % Print a list of values.
 % In this case is the players type
-% Maybe this function should pass to printutils
 %%
 displayPlayerTypes([]).
 

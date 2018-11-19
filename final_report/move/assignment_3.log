@@ -1,4 +1,4 @@
-This is pdfTeX, Version 3.14159265-2.6-1.40.19 (TeX Live 2018) (preloaded format=pdflatex 2018.9.30)  21 OCT 2018 16:45
+This is pdfTeX, Version 3.14159265-2.6-1.40.19 (TeX Live 2018) (preloaded format=pdflatex 2018.9.30)  18 NOV 2018 18:45
 entering extended mode
  restricted \write18 enabled.
  %&-line parsing enabled.
@@ -874,47 +874,184 @@ Package pdftex.def Info: Figures/tabuleiro_final.png  used on input line 316.
 
 (./assignment_3.bbl
 
-Class scrartcl Warning: incompatible usage of \@ssect detected.
-(scrartcl)              You've used the KOMA-Script implementation of \@ssect
-(scrartcl)              from within a non compatible caller, that does not
-(scrartcl)              \scr@s@ct@@nn@m@ locally.
-(scrartcl)              This could result in several error messages on input li
-ne 1.
+! LaTeX Error: Lonely \item--perhaps a missing list environment.
+
+See the LaTeX manual or LaTeX Companion for explanation.
+Type  H <return>  for immediate help.
+ ...                                              
+                                                  
+l.3 \bibitem{GameGeek:2018}
+                           
+Try typing  <return>  to proceed.
+If that doesn't work, type  X <return>  to quit.
 
 ! Undefined control sequence.
-\refname ->\spacedlowsmallcaps 
-                               {Referências}
-l.1 \begin{thebibliography}{1}
-                              
+<argument> \@listctr 
+                     
+l.3 \bibitem{GameGeek:2018}
+                           
 The control sequence at the end of the top line
 of your error message was never \def'ed. If you have
 misspelled it (e.g., `\hobx'), type `I' and the correct
 spelling (e.g., `I\hbox'). Otherwise just continue,
 and I'll forget about whatever was undefined.
 
+! You can't use `\relax' after \the.
+<recently read> \c@ 
+                    
+l.3 \bibitem{GameGeek:2018}
+                           
+I'm forgetting what you said and using zero instead.
+
+
+! LaTeX Error: Lonely \item--perhaps a missing list environment.
+
+See the LaTeX manual or LaTeX Companion for explanation.
+Type  H <return>  for immediate help.
+ ...                                              
+                                                  
+l.8 \bibitem{TheDuke:2013}
+                          
+Try typing  <return>  to proceed.
+If that doesn't work, type  X <return>  to quit.
+
 ! Undefined control sequence.
-\refname ->\spacedlowsmallcaps 
-                               {Referências}
-l.1 \begin{thebibliography}{1}
-                              
+<argument> \@listctr 
+                     
+l.8 \bibitem{TheDuke:2013}
+                          
 The control sequence at the end of the top line
 of your error message was never \def'ed. If you have
 misspelled it (e.g., `\hobx'), type `I' and the correct
 spelling (e.g., `I\hbox'). Otherwise just continue,
 and I'll forget about whatever was undefined.
 
+! You can't use `\relax' after \the.
+<recently read> \c@ 
+                    
+l.8 \bibitem{TheDuke:2013}
+                          
+I'm forgetting what you said and using zero instead.
+
+
+! LaTeX Error: Lonely \item--perhaps a missing list environment.
+
+See the LaTeX manual or LaTeX Companion for explanation.
+Type  H <return>  for immediate help.
+ ...                                              
+                                                  
+l.13 \bibitem{Onitama:2014}
+                           
+Try typing  <return>  to proceed.
+If that doesn't work, type  X <return>  to quit.
+
 ! Undefined control sequence.
-\refname ->\spacedlowsmallcaps 
-                               {Referências}
-l.1 \begin{thebibliography}{1}
-                              
+<argument> \@listctr 
+                     
+l.13 \bibitem{Onitama:2014}
+                           
 The control sequence at the end of the top line
 of your error message was never \def'ed. If you have
 misspelled it (e.g., `\hobx'), type `I' and the correct
 spelling (e.g., `I\hbox'). Otherwise just continue,
 and I'll forget about whatever was undefined.
 
-[6])
+! You can't use `\relax' after \the.
+<recently read> \c@ 
+                    
+l.13 \bibitem{Onitama:2014}
+                           
+I'm forgetting what you said and using zero instead.
+
+
+! LaTeX Error: Lonely \item--perhaps a missing list environment.
+
+See the LaTeX manual or LaTeX Companion for explanation.
+Type  H <return>  for immediate help.
+ ...                                              
+                                                  
+l.18 \bibitem{Chesstris:2018}
+                             
+Try typing  <return>  to proceed.
+If that doesn't work, type  X <return>  to quit.
+
+! Undefined control sequence.
+<argument> \@listctr 
+                     
+l.18 \bibitem{Chesstris:2018}
+                             
+The control sequence at the end of the top line
+of your error message was never \def'ed. If you have
+misspelled it (e.g., `\hobx'), type `I' and the correct
+spelling (e.g., `I\hbox'). Otherwise just continue,
+and I'll forget about whatever was undefined.
+
+! You can't use `\relax' after \the.
+<recently read> \c@ 
+                    
+l.18 \bibitem{Chesstris:2018}
+                             
+I'm forgetting what you said and using zero instead.
+
+
+Overfull \hbox (65.63478pt too wide) in paragraph at lines 19--22
+[]\T1/futs/m/n/10.95 Martin Grider.  Eigen-state on bgg, 2018.  URL: []$\T1/cmt
+t/m/n/10.95 http : / / chesstris . com / 2018 / 04 / 15 / eigenstate-[]on-[]bgg
+$[]\T1/futs/m/n/10.95 . 
+ []
+
+[6]
+
+! LaTeX Error: Lonely \item--perhaps a missing list environment.
+
+See the LaTeX manual or LaTeX Companion for explanation.
+Type  H <return>  for immediate help.
+ ...                                              
+                                                  
+l.23 \bibitem{eigenstaterules:2018}
+                                   
+Try typing  <return>  to proceed.
+If that doesn't work, type  X <return>  to quit.
+
+! Undefined control sequence.
+<argument> \@listctr 
+                     
+l.23 \bibitem{eigenstaterules:2018}
+                                   
+The control sequence at the end of the top line
+of your error message was never \def'ed. If you have
+misspelled it (e.g., `\hobx'), type `I' and the correct
+spelling (e.g., `I\hbox'). Otherwise just continue,
+and I'll forget about whatever was undefined.
+
+! You can't use `\relax' after \the.
+<recently read> \c@ 
+                    
+l.23 \bibitem{eigenstaterules:2018}
+                                   
+I'm forgetting what you said and using zero instead.
+
+
+! LaTeX Error: \begin{document} ended by \end{thebibliography}.
+
+See the LaTeX manual or LaTeX Companion for explanation.
+Type  H <return>  for immediate help.
+ ...                                              
+                                                  
+l.28 \end{thebibliography}
+                          
+Your command was ignored.
+Type  I <command> <return>  to replace it with another command,
+or  <return>  to continue without it.
+
+! Extra \endgroup.
+<recently read> \endgroup 
+                          
+l.28 \end{thebibliography}
+                          
+Things are pretty mixed up, but I think the worst is over.
+
+)
 Package atveryend Info: Empty hook `BeforeClearDocument' on input line 329.
  [7 <./Figures/tabuleiro_init.png>] [8 <./Figures/tabuleiro_middle.png>]
 [9 <./Figures/tabuleiro_final.png>]
@@ -924,13 +1061,17 @@ Package atveryend Info: Executing hook `AtVeryEndDocument' on input line 329.
 Package atveryend Info: Executing hook `AtEndAfterFileList' on input line 329.
 Package rerunfilecheck Info: File `assignment_3.out' has not changed.
 (rerunfilecheck)             Checksum: 5D203AEC0F959281646DDDDBD44217AC;548.
+
+
+LaTeX Warning: Label(s) may have changed. Rerun to get cross-references right.
+
 Package atveryend Info: Empty hook `AtVeryVeryEnd' on input line 329.
  ) 
 Here is how much of TeX's memory you used:
  11588 strings out of 492649
- 177752 string characters out of 6129622
+ 177744 string characters out of 6129622
  502168 words of memory out of 5000000
- 15173 multiletter control sequences out of 15000+600000
+ 15174 multiletter control sequences out of 15000+600000
  105326 words of font info for 112 fonts, out of 8000000 for 9000
  1141 hyphenation exceptions out of 8191
  41i,11n,51p,9091b,1788s stack positions out of 5000i,500n,10000p,200000b,80000s
@@ -942,10 +1083,10 @@ ive/2018/texmf-dist/fonts/type1/adobe/utopia/putb8a.pfb></usr/local/texlive/201
 -dist/fonts/type1/adobe/utopia/putri8a.pfb></usr/local/texlive/2018/texmf-dist/
 fonts/type1/public/cm-super/sftt1000.pfb></usr/local/texlive/2018/texmf-dist/fo
 nts/type1/public/cm-super/sftt1095.pfb>
-Output written on assignment_3.pdf (9 pages, 365793 bytes).
+Output written on assignment_3.pdf (9 pages, 365353 bytes).
 PDF statistics:
- 234 PDF objects out of 1000 (max. 8388607)
- 202 compressed objects within 3 object streams
- 92 named destinations out of 1000 (max. 500000)
+ 231 PDF objects out of 1000 (max. 8388607)
+ 200 compressed objects within 2 object streams
+ 91 named destinations out of 1000 (max. 500000)
  90 words of extra memory for PDF output out of 10000 (max. 10000000)
 

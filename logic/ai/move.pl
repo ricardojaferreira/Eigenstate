@@ -20,12 +20,6 @@ choosePieceToMoveComputerAI(Player,Board,ListOfPieces,Piece,PosX,PosY):-
     getListOfPiecesAndMovesByScore(List,ListOfPieces,Board,BalancedWeightBoard,PiecesAndMovesAux),
     convertToSimpleList(PiecesAndMovesAux,PiecesAndMoves),
     getBestChoiceByScore(PiecesAndMoves,Piece,PosX,PosY).
-%    getIndexOfListMap(PiecesAndMoves,Indexes),
-%    getMaxNumber(Indexes,MaxScore),
-%    getAllElementsFromMapById(MaxScore,PiecesAndMoves,ListOfPiecesToMove),
-%    chooseRandomElement(ListOfPiecesToMove,Element),
-%    getListValueByIndex(ListOfPiecesToMove,Element,[Piece,PosX,PosY]).
-
 
 %%%
 generateWeightBoardLine(_List,[],[]).
@@ -50,8 +44,6 @@ generateWeightBoard(List,[Bl|B],[Wbl|Wb]):-
     generateWeightBoard(List,B,Wb).
 
 %%%%
-
-%getEvaluator(E,Args):- F=.. [E|Args], F.
 
 checkIfPieceCanGoToPosition([],_IndexX,_IndexY,_PosX,_PosY,0).
 
@@ -118,7 +110,6 @@ evaluatePiecesAroundByLine(List,ListOfPieces,Board,PosX,PosY,[Wbe|Wbl],[Bwbe|Bwb
     between(1,L,IndexX),
     getBalancedWeightByElement(List,ListOfPieces,Board,PosX,PosY,IndexX,Wbe,Bwbe),!,
     PosYAux is PosY+1,
-%    write('call1'),
     evaluatePiecesAroundByLine(List,ListOfPieces,Board,PosX,PosYAux,Wbl,Bwbl).
 
 evaluatePiecesAroundByLine(List,ListOfPieces,Board,PosX,PosY,[Wbe|Wbl],[Bwbe|Bwbl]):-
@@ -127,13 +118,11 @@ evaluatePiecesAroundByLine(List,ListOfPieces,Board,PosX,PosY,[Wbe|Wbl],[Bwbe|Bwb
     between(1,L,IndexX),
     getBalancedWeightByElement(List,ListOfPieces,Board,PosX,PosY,IndexX,Wbe,Bwbe),!,
     PosYAux is PosY+1,
-%    write('call2'),
     evaluatePiecesAroundByLine(List,ListOfPieces,Board,PosX,PosYAux,Wbl,Bwbl).
 
 evaluatePiecesAroundByLine(List,ListOfPieces,Board,PosX,PosY,[Wbe|Wbl],[Bwbe|Bwbl]):-
     getBalancedWeightByElement(List,ListOfPieces,Board,PosX,PosY,PosX,Wbe,Bwbe),!,
     PosYAux is PosY+1,
-%    write('call3'),
     evaluatePiecesAroundByLine(List,ListOfPieces,Board,PosX,PosYAux,Wbl,Bwbl).
 
 %%Arguments:
@@ -173,7 +162,7 @@ getListOfPiecesAndMovesByScore([P|L],ListOfPieces,Board,BalancedWeightBoard,[Smp
 
 
 
-%%%%%%%%%%%% TESTE %%%%%%%%%%%%%%%%%%%%%
+%%%%%%%%%%%% TEST %%%%%%%%%%%%%%%%%%%%%
 
 aiBoardTest( [
                 [7,2,3,0,0,0],

@@ -25,4 +25,15 @@ Martin Grider.
 \newblock Eigenstate pnp rules, 2018.
 \newblock URL: \url{https://tinyurl.com/eigenstate}.
 
+\bibitem{swiPrologManual:2018}
+Swi Prolog.
+\newblock Swi Prolog Reference Manual, 2018.
+\newblock URL: \url{http://www.swi-prolog.org/pldoc/doc_for?object=manual}.
+
+\bibitem{learnProlog:2012}
+Patrick Blackburn, Johan Bos, and Kristina Striegnitz.
+\newblock Learn Prolog Now, 2012.
+\newblock URL: \url{http://www.learnprolognow.org/}.
+
+
 \end{thebibliography}
