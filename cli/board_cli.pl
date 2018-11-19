@@ -16,7 +16,7 @@ translateBoardLetter('e',5).
 translateBoardLetter('F',6).
 translateBoardLetter('f',6).
 
-checkLetter(Letter,Size,Result):-
+checkLetter([Letter],Size,Result):-
     translateBoardLetter(Letter,Result),
     Result>=1,
     Result=<Size,!.
@@ -24,7 +24,8 @@ checkLetter(Letter,Size,Result):-
 checkLetter(_Letter,Size,Result):-
     !,askPlayerToChooseNewLetter(Size,Result).
 
-checkNumber(Number,Size,Number):-
+checkNumber([Number],Size,Number):-
+    integer(Number),
     Number>=1,
     Number=<Size.
 

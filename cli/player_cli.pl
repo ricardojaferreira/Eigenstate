@@ -24,7 +24,7 @@ askPlayerToChoose(Player, Types, Choice):-
     nl,
     displayPlayerTypes(Types),
     nl,
-    read(Choice).
+    readln(Choice).
 
 askPlayerToChooseAgain(Types, Choice):-
     nl,
@@ -33,15 +33,15 @@ askPlayerToChooseAgain(Types, Choice):-
     nl,
     displayPlayerTypes(Types),
     nl,
-    read(Choice).
+    readln(Choice).
 
 askPlayerToChooseNewLetter(Size,NewLetter):-
     nl,
     inGameColor(IgColor),
     ansi_format([fg(IgColor)],'~w',['Invalid Option, please choose another.']),
     nl,
-    ansi_format([fg(IgColor)],'~w',['Letter(USE QUOTES): ']),
-    read(Letter),
+    ansi_format([fg(IgColor)],'~w',['Letter: ']),
+    readln(Letter),
     checkLetter(Letter,Size,NewLetter).
 
 askPlayerToChooseNewNumber(Size,NewNumber):-
@@ -50,7 +50,7 @@ askPlayerToChooseNewNumber(Size,NewNumber):-
     ansi_format([fg(IgColor)],'~w',['Invalid Option, please choose another.']),
     nl,
     ansi_format([fg(IgColor)],'~w',['Number: ']),
-    read(Number),
+    readln(Number),
     checkNumber(Number,Size,NewNumber).
 
 %%%
@@ -80,11 +80,11 @@ askPlayerToChooseCell(Player,Size,Select,PosX,PosY):-
     nl,
     ansi_format([fg(IgColor)],'~w~w~w~w~w',['Player ',Player,' select a ',Select,'.']),
     nl,
-    ansi_format([fg(IgColor)],'~w',['Letter(USE QUOTES): ']),
-    read(Letter),
+    ansi_format([fg(IgColor)],'~w',['Letter: ']),
+    readln(Letter),
     checkLetter(Letter,Size,PosY),
     ansi_format([fg(IgColor)],'~w',['Number: ']),
-    read(Number),
+    readln(Number),
     checkNumber(Number,Size,PosX).
 
 showPlayerTypes(Type1, Type2):-
@@ -96,9 +96,9 @@ showPlayerTypes(Type1, Type2):-
 waitForPlayerMove(Player):-
     inGameColor(C),
     ansi_format([fg(C)],'~w~w~w',['Player ',Player,' - Press enter to Move.']),
-    get_code(_).
+    readln(_).
 
 waitForPlayerToAddPeg(Player):-
     inGameColor(C),
     ansi_format([fg(C)],'~w~w~w',['Player ',Player,' - Press enter to add peg.']),
-    get_code(_).
+    readln(_).

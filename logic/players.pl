@@ -20,7 +20,7 @@ isPlayerTypeAvailable(Type,[_X|T]):-
 checkType(X,Result):-
     var(X),
     playerTypesAvailable(Types),
-    askPlayerToChooseAgain(Types, Choice),
+    askPlayerToChooseAgain(Types,[Choice]),
     checkType(Choice,Result).
 
 checkType(Type,[Type|_T]):-
@@ -29,7 +29,7 @@ checkType(Type,[Type|_T]):-
 
 checkType(_Z,Result):-
     playerTypesAvailable(Types),
-    askPlayerToChooseAgain(Types, Choice),
+    askPlayerToChooseAgain(Types,[Choice]),
     checkType(Choice,Result).
 
 %%%
@@ -38,7 +38,7 @@ checkType(_Z,Result):-
 %%
 setPlayer(Type,Player):-
     playerTypesAvailable(Types),
-    askPlayerToChoose(Player,Types,X),
+    askPlayerToChoose(Player,Types,[X]),
     checkType(X,[Type|_T]).
 
 %%%
